@@ -17,17 +17,6 @@ Duration.prototype.elapsed = function (){
     return etime - this.btime;
 };
 
-function* Chars(str){
-    let idx = 0;
-    while ( idx < str.length ){
-        yield str[idx];
-        idx += 1;
-    }
-}
-// for (let char of Chars("hello")){
-//     console.log(char);
-// }
-
 function assert(left, right) {
     let res = false;
     if (typeof left == 'object' && typeof right == 'object' 
@@ -68,6 +57,13 @@ Array.prototype.eq = function (b){
         idx += 1;
     }
     return true;
+};
+String.prototype.chars = function* (){
+    let idx = 0;
+    while ( idx < this.length ){
+        yield this[idx];
+        idx += 1;
+    }
 };
 String.prototype.forEach = function (cb){
     for (let c of this) {
