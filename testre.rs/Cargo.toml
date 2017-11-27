@@ -1,0 +1,7 @@
+[package]
+name = "testre"
+version = "0.1.0"
+authors = ["luozijun <gnulinux@126.com>"]
+
+[dependencies]
+regex = "0.2.2"
