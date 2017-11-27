@@ -7,6 +7,8 @@ const STATE_NULL = 0;
 const STATE_ONE  = 1;
 const STATE_TWO  = 2;
 
+const GeneratorFunction = Object.getPrototypeOf(function*(){}()).constructor;
+
 
 function Duration() {
     if ( this instanceof Duration == false ) throw new Error('Ooops ...');
@@ -104,6 +106,26 @@ String.prototype.replace2 = function (p, to){
     }
     return str;
 };
+GeneratorFunction.prototype.map = function (cb){
+    let res = [];
+    let idx = 0;
+    while (1){
+        let next = this.next();
+        if ( next.done == true ) break;
+        res.push(cb(next.value, idx));
+        idx += 1;
+    }
+    return res;
+};
+GeneratorFunction.prototype.forEach = function (cb){
+    let idx = 0;
+    while (1){
+        let next = this.next();
+        if ( next.done == true ) break;
+        cb(next.value, idx);
+        idx += 1;
+    }
+};
 
 
 function split(input, output){
@@ -113,8 +135,7 @@ function split(input, output){
     let state = STATE_NULL;
     let buff = "";
     let c = null;
-
-    for (c of input) {
+    input.chars().forEach(function (c, idx){
         if (CHARS.indexOf(c) != -1) {
             output.push(buff);
             buff = "";
@@ -143,7 +164,8 @@ function split(input, output){
                 }
             }
         }
-    }
+    });
+    
     output.push(buff);
     buff = null;
     c = null;
